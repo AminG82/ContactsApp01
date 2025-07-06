@@ -12,15 +12,18 @@ namespace ContactsApp01
         private void MainForm_Load(object sender, EventArgs e)
         {
             SqlConnection connection = new SqlConnection("""
-                Data Source=.;Initial Catalog=ContactsDB;User ID=sa; Password = amin5123 ;Encrypt=False
+                Data Source=.;Initial Catalog=ContactsDB;User ID=sa; Password = amin5123 ;Encrypt = false
                 """);
-                
-            try {                 connection.Open();
+
+            try
+            {
+                connection.Open();
                 MessageBox.Show("Connection to the database was successful.");
             }
             catch (SqlException ex)
             {
                 MessageBox.Show($"Error connecting to the database: {ex.Message}");
+                Application.Exit();
             }
             finally
             {
@@ -28,5 +31,9 @@ namespace ContactsApp01
             }
         }
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

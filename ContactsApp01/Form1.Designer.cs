@@ -50,7 +50,6 @@
             label1.Size = new Size(39, 15);
             label1.TabIndex = 0;
             label1.Text = "Name";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -162,6 +161,7 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "MainForm";
             Text = "Contacts";
+            Load += MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

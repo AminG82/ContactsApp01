@@ -134,6 +134,7 @@
             btnDiscard.TabIndex = 10;
             btnDiscard.Text = "Discard";
             btnDiscard.UseVisualStyleBackColor = true;
+            btnDiscard.Click += btnDiscard_Click;
             // 
             // lstContactsShow
             // 

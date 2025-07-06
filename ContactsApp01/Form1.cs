@@ -13,6 +13,21 @@ namespace ContactsApp01
             InitializeComponent();
         }
 
+        private void LoadContacts()
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Contacts", connection);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+
+            lstContactsShow.Items.Clear();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                // Adjust the fields as per your Contacts table columns     // Load existing contacts into the list box
+                string display = $"{row["ContactName"]} {row["ContactLastName"]} - {row["ContactPhone"]} - {row["ContactEmail"]}";
+                lstContactsShow.Items.Add(display);
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
 
@@ -21,17 +36,6 @@ namespace ContactsApp01
                 connection.Open();
                 MessageBox.Show("Connection to the database was successful.");
 
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Contacts", connection);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-
-                lstContactsShow.Items.Clear();
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    // Adjust the fields as per your Contacts table columns     // Load existing contacts into the list box
-                    string display = $"{row["ContactName"]} {row["ContactLastName"]} - {row["ContactPhone"]} - {row["ContactEmail"]}";
-                    lstContactsShow.Items.Add(display);
-                }
             }
             catch (SqlException ex)
             {
@@ -42,6 +46,7 @@ namespace ContactsApp01
             {
                 connection.Close();
             }
+            LoadContacts();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -51,7 +56,7 @@ namespace ContactsApp01
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(txtName.Text) ||
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
                 string.IsNullOrWhiteSpace(txtLastName.Text) ||
                 string.IsNullOrWhiteSpace(txtPhone.Text))
             {
@@ -68,10 +73,10 @@ namespace ContactsApp01
                 Insert.Parameters.AddWithValue("@LastName", txtLastName.Text);
                 Insert.Parameters.AddWithValue("@Phone", txtPhone.Text);
                 Insert.Parameters.AddWithValue("@Email", txtEmail.Text);
-                
+
                 connection.Open();
                 int affected = Insert.ExecuteNonQuery();
-                MessageBox.Show($"InsertComplite! {affected} Row affected");   
+                MessageBox.Show($"InsertComplite! {affected} Row affected");
                 connection.Close();
             }
 
@@ -81,8 +86,16 @@ namespace ContactsApp01
             txtPhone.Clear();
             txtEmail.Clear();
 
-            
-            
+            // Refresh the list box to show the newly added contact
+            LoadContacts();
+        }
+
+        private void btnDiscard_Click(object sender, EventArgs e)
+        {
+            txtName.Clear();
+            txtLastName.Clear();
+            txtPhone.Clear();
+            txtEmail.Clear();
         }
     }
 }

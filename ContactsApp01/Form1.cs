@@ -6,5 +6,10 @@ namespace ContactsApp01
         {
             InitializeComponent();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

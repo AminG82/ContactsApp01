@@ -39,7 +39,8 @@
             btnExit = new Button();
             btnSave = new Button();
             btnDiscard = new Button();
-            lstContactsShow = new ListBox();
+            contactShowGridView = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)contactShowGridView).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -136,20 +137,20 @@
             btnDiscard.UseVisualStyleBackColor = true;
             btnDiscard.Click += btnDiscard_Click;
             // 
-            // lstContactsShow
+            // contactShowGridView
             // 
-            lstContactsShow.FormattingEnabled = true;
-            lstContactsShow.Location = new Point(295, 30);
-            lstContactsShow.Name = "lstContactsShow";
-            lstContactsShow.Size = new Size(493, 349);
-            lstContactsShow.TabIndex = 11;
+            contactShowGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            contactShowGridView.Location = new Point(295, 30);
+            contactShowGridView.Name = "contactShowGridView";
+            contactShowGridView.Size = new Size(493, 306);
+            contactShowGridView.TabIndex = 11;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(lstContactsShow);
+            Controls.Add(contactShowGridView);
             Controls.Add(btnDiscard);
             Controls.Add(btnSave);
             Controls.Add(btnExit);
@@ -165,6 +166,7 @@
             Name = "MainForm";
             Text = "Contacts";
             Load += MainForm_Load;
+            ((System.ComponentModel.ISupportInitialize)contactShowGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -182,6 +184,6 @@
         private Button btnExit;
         private Button btnSave;
         private Button btnDiscard;
-        private ListBox lstContactsShow;
+        private DataGridView contactShowGridView;
     }
 }

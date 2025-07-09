@@ -15,26 +15,18 @@ namespace ContactsApp01
 
         private void LoadContacts()
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Contacts", connection);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
-
-            lstContactsShow.Items.Clear();
-            foreach (DataRow row in dataTable.Rows)
-            {
-                // Adjust the fields as per your Contacts table columns     // Load existing contacts into the list box
-                string display = $"{row["ContactName"]} {row["ContactLastName"]} - {row["ContactPhone"]} - {row["ContactEmail"]}";
-                lstContactsShow.Items.Add(display);
-            }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
             try
             {
                 connection.Open();
-                MessageBox.Show("Connection to the database was successful.");
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Contacts", connection);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                contactShowGridView.DataSource = dataTable;
+                contactShowGridView.Columns["ContactID"].Visible = false; // Hide the ID column
+                contactShowGridView.AllowUserToAddRows = false; // Disable the ability to add rows directly in the grid view
+                contactShowGridView.AllowUserToDeleteRows = false;
+                contactShowGridView.ReadOnly = true; // Make the grid view read-only
 
             }
             catch (SqlException ex)
@@ -46,6 +38,12 @@ namespace ContactsApp01
             {
                 connection.Close();
             }
+
+         
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
             LoadContacts();
         }
 

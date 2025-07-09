@@ -39,7 +39,7 @@ namespace ContactsApp01
                 connection.Close();
             }
 
-         
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -95,5 +95,6 @@ namespace ContactsApp01
             txtPhone.Clear();
             txtEmail.Clear();
         }
+
     }
 }

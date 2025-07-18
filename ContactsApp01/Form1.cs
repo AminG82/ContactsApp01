@@ -8,6 +8,7 @@ namespace ContactsApp01
         SqlConnection connection = new SqlConnection("""
                 Data Source=.;Initial Catalog=ContactsDB;User ID=sa; Password = amin5123 ;Encrypt = false
                 """);
+        private int SelectedContactId = -1;
         public MainForm()
         {
             InitializeComponent();
@@ -65,15 +66,8 @@ namespace ContactsApp01
                     INSERT INTO Contacts (ContactName, ContactLastName, ContactPhone, ContactEmail)
                     VALUES (@Name, @LastName, @Phone, @Email)
                     """, connection);
-                insertCommand.Parameters.AddWithValue("@Name", txtName.Text);
-                insertCommand.Parameters.AddWithValue("@LastName", txtLastName.Text);
-                insertCommand.Parameters.AddWithValue("@Phone", txtPhone.Text);
-                insertCommand.Parameters.AddWithValue("@Email", txtEmail.Text);
 
-                connection.Open();
-                int affected = insertCommand.ExecuteNonQuery();
-                MessageBox.Show($"InsertComplite! {affected} Row affected");
-                connection.Close();
+                queryExecution(insertCommand, connection);
             }
 
             // Clear the input fields after saving
@@ -96,14 +90,80 @@ namespace ContactsApp01
 
         private void contactShowGridView_SelectionChanged(object sender, EventArgs e)
         {
+
             if (contactShowGridView.SelectedRows.Count > 0)
             {
                 var selectedRow = contactShowGridView.SelectedRows[0];
+                SelectedContactId = Convert.ToInt32(selectedRow.Cells["ContactID"].Value);
+
                 txtName.Text = selectedRow.Cells["ContactName"].Value?.ToString();
                 txtLastName.Text = selectedRow.Cells["ContactLastName"].Value?.ToString();
                 txtPhone.Text = selectedRow.Cells["ContactPhone"].Value?.ToString();
                 txtEmail.Text = selectedRow.Cells["ContactEmail"].Value?.ToString();
+
+                //Reseting Modify flag after selection
+                txtName.Modified = false;
+                txtLastName.Modified = false;
+                txtPhone.Modified = false;
+                txtEmail.Modified = false;
             }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (SelectedContactId == -1)
+            {
+                MessageBox.Show("Please select a contact to update.");
+                return;
+            }
+
+            if (!txtName.Modified &&
+                !txtLastName.Modified &&
+                !txtPhone.Modified &&
+                !txtEmail.Modified)
+            {
+                MessageBox.Show("No changes made to the contact.");
+                return;
+            }
+
+            SqlCommand updateCommand = new SqlCommand("""
+                UPDATE Contacts
+                SET ContactName = @Name ,
+                ContactLastName = @LastName ,
+                ContactPhone = @Phone ,
+                ContactEmail = @Email 
+                WHERE ContactID = @ContactID
+                """,
+            connection);
+
+            queryExecution(updateCommand, connection);
+
+        }
+
+        private void queryExecution(SqlCommand command , SqlConnection connection)
+        {
+
+            // a method to use several time / code less!
+            command.Parameters.AddWithValue("@Name", txtName.Text);
+            command.Parameters.AddWithValue("@LastName", txtLastName.Text);
+            command.Parameters.AddWithValue("@Phone", txtPhone.Text);
+            command.Parameters.AddWithValue("@Email", txtEmail.Text);
+            if (command.CommandText.Contains("@ContactID"))
+            {
+                command.Parameters.AddWithValue("@ContactID", SelectedContactId);
+            }
+
+            connection.Open();
+            int affected = command.ExecuteNonQuery();
+            MessageBox.Show($"InsertComplite! {affected} Row affected");
+            connection.Close();
+
+            txtName.Clear();
+            txtLastName.Clear();
+            txtPhone.Clear();
+            txtEmail.Clear();
+
+            LoadContacts();
         }
     }
 }

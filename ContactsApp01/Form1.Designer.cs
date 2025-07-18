@@ -40,6 +40,8 @@
             btnSave = new Button();
             btnDiscard = new Button();
             contactShowGridView = new DataGridView();
+            btnUpdate = new Button();
+            btnRemove = new Button();
             ((System.ComponentModel.ISupportInitialize)contactShowGridView).BeginInit();
             SuspendLayout();
             // 
@@ -155,11 +157,32 @@
             contactShowGridView.TabIndex = 11;
             contactShowGridView.SelectionChanged += contactShowGridView_SelectionChanged;
             // 
+            // btnUpdate
+            // 
+            btnUpdate.Location = new Point(31, 517);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(86, 29);
+            btnUpdate.TabIndex = 12;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
+            // 
+            // btnRemove
+            // 
+            btnRemove.Location = new Point(135, 517);
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new Size(86, 29);
+            btnRemove.TabIndex = 13;
+            btnRemove.Text = "Remove";
+            btnRemove.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(btnRemove);
+            Controls.Add(btnUpdate);
             Controls.Add(contactShowGridView);
             Controls.Add(btnDiscard);
             Controls.Add(btnSave);
@@ -196,5 +219,7 @@
         private Button btnSave;
         private Button btnDiscard;
         private DataGridView contactShowGridView;
+        private Button btnUpdate;
+        private Button btnRemove;
     }
 }

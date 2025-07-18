@@ -38,8 +38,6 @@ namespace ContactsApp01
             {
                 connection.Close();
             }
-
-
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -63,17 +61,17 @@ namespace ContactsApp01
             }
             else
             {
-                SqlCommand Insert = new SqlCommand("""
+                SqlCommand insertCommand = new SqlCommand("""
                     INSERT INTO Contacts (ContactName, ContactLastName, ContactPhone, ContactEmail)
                     VALUES (@Name, @LastName, @Phone, @Email)
                     """, connection);
-                Insert.Parameters.AddWithValue("@Name", txtName.Text);
-                Insert.Parameters.AddWithValue("@LastName", txtLastName.Text);
-                Insert.Parameters.AddWithValue("@Phone", txtPhone.Text);
-                Insert.Parameters.AddWithValue("@Email", txtEmail.Text);
+                insertCommand.Parameters.AddWithValue("@Name", txtName.Text);
+                insertCommand.Parameters.AddWithValue("@LastName", txtLastName.Text);
+                insertCommand.Parameters.AddWithValue("@Phone", txtPhone.Text);
+                insertCommand.Parameters.AddWithValue("@Email", txtEmail.Text);
 
                 connection.Open();
-                int affected = Insert.ExecuteNonQuery();
+                int affected = insertCommand.ExecuteNonQuery();
                 MessageBox.Show($"InsertComplite! {affected} Row affected");
                 connection.Close();
             }
@@ -96,5 +94,16 @@ namespace ContactsApp01
             txtEmail.Clear();
         }
 
+        private void contactShowGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (contactShowGridView.SelectedRows.Count > 0)
+            {
+                var selectedRow = contactShowGridView.SelectedRows[0];
+                txtName.Text = selectedRow.Cells["ContactName"].Value?.ToString();
+                txtLastName.Text = selectedRow.Cells["ContactLastName"].Value?.ToString();
+                txtPhone.Text = selectedRow.Cells["ContactPhone"].Value?.ToString();
+                txtEmail.Text = selectedRow.Cells["ContactEmail"].Value?.ToString();
+            }
+        }
     }
 }

@@ -46,72 +46,77 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(27, 80);
+            label1.Location = new Point(31, 107);
             label1.Name = "label1";
-            label1.Size = new Size(39, 15);
+            label1.Size = new Size(49, 20);
             label1.TabIndex = 0;
             label1.Text = "Name";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(27, 129);
+            label2.Location = new Point(31, 172);
             label2.Name = "label2";
-            label2.Size = new Size(60, 15);
+            label2.Size = new Size(75, 20);
             label2.TabIndex = 1;
             label2.Text = "LastName";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(27, 182);
+            label3.Location = new Point(31, 243);
             label3.Name = "label3";
-            label3.Size = new Size(41, 15);
+            label3.Size = new Size(50, 20);
             label3.TabIndex = 2;
             label3.Text = "Phone";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(27, 238);
+            label4.Location = new Point(31, 317);
             label4.Name = "label4";
-            label4.Size = new Size(36, 15);
+            label4.Size = new Size(46, 20);
             label4.TabIndex = 3;
             label4.Text = "Email";
             // 
             // txtName
             // 
-            txtName.Location = new Point(101, 77);
+            txtName.Location = new Point(115, 103);
+            txtName.Margin = new Padding(3, 4, 3, 4);
             txtName.Name = "txtName";
-            txtName.Size = new Size(168, 23);
+            txtName.Size = new Size(191, 27);
             txtName.TabIndex = 4;
             // 
             // txtLastName
             // 
-            txtLastName.Location = new Point(101, 129);
+            txtLastName.Location = new Point(115, 172);
+            txtLastName.Margin = new Padding(3, 4, 3, 4);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(168, 23);
+            txtLastName.Size = new Size(191, 27);
             txtLastName.TabIndex = 5;
             // 
             // txtPhone
             // 
-            txtPhone.Location = new Point(101, 179);
+            txtPhone.Location = new Point(115, 239);
+            txtPhone.Margin = new Padding(3, 4, 3, 4);
             txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(168, 23);
+            txtPhone.Size = new Size(191, 27);
             txtPhone.TabIndex = 6;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(101, 230);
+            txtEmail.Location = new Point(115, 307);
+            txtEmail.Margin = new Padding(3, 4, 3, 4);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(168, 23);
+            txtEmail.Size = new Size(191, 27);
             txtEmail.TabIndex = 7;
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(713, 415);
+            btnExit.Location = new Point(815, 553);
+            btnExit.Margin = new Padding(3, 4, 3, 4);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(75, 23);
+            btnExit.Size = new Size(86, 31);
             btnExit.TabIndex = 8;
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
@@ -119,9 +124,10 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(118, 415);
+            btnSave.Location = new Point(135, 553);
+            btnSave.Margin = new Padding(3, 4, 3, 4);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(75, 23);
+            btnSave.Size = new Size(86, 31);
             btnSave.TabIndex = 9;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
@@ -129,9 +135,10 @@
             // 
             // btnDiscard
             // 
-            btnDiscard.Location = new Point(27, 415);
+            btnDiscard.Location = new Point(31, 553);
+            btnDiscard.Margin = new Padding(3, 4, 3, 4);
             btnDiscard.Name = "btnDiscard";
-            btnDiscard.Size = new Size(75, 23);
+            btnDiscard.Size = new Size(86, 31);
             btnDiscard.TabIndex = 10;
             btnDiscard.Text = "Discard";
             btnDiscard.UseVisualStyleBackColor = true;
@@ -140,16 +147,19 @@
             // contactShowGridView
             // 
             contactShowGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            contactShowGridView.Location = new Point(295, 30);
+            contactShowGridView.Location = new Point(337, 40);
+            contactShowGridView.Margin = new Padding(3, 4, 3, 4);
             contactShowGridView.Name = "contactShowGridView";
-            contactShowGridView.Size = new Size(493, 306);
+            contactShowGridView.RowHeadersWidth = 51;
+            contactShowGridView.Size = new Size(563, 408);
             contactShowGridView.TabIndex = 11;
+            contactShowGridView.SelectionChanged += contactShowGridView_SelectionChanged;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
             Controls.Add(contactShowGridView);
             Controls.Add(btnDiscard);
             Controls.Add(btnSave);
@@ -163,6 +173,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "MainForm";
             Text = "Contacts";
             Load += MainForm_Load;

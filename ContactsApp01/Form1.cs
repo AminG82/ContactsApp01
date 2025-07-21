@@ -140,22 +140,22 @@ namespace ContactsApp01
 
         }
 
-        private void queryExecution(SqlCommand command , SqlConnection connection)
+        private void queryExecution(SqlCommand command, SqlConnection connection)
         {
-
-            // a method to use several time / code less!
-            command.Parameters.AddWithValue("@Name", txtName.Text);
-            command.Parameters.AddWithValue("@LastName", txtLastName.Text);
-            command.Parameters.AddWithValue("@Phone", txtPhone.Text);
-            command.Parameters.AddWithValue("@Email", txtEmail.Text);
+            if (command.CommandText.Contains("@Name"))
+                command.Parameters.AddWithValue("@Name", txtName.Text);
+            if (command.CommandText.Contains("@LastName"))
+                command.Parameters.AddWithValue("@LastName", txtLastName.Text);
+            if (command.CommandText.Contains("@Phone"))
+                command.Parameters.AddWithValue("@Phone", txtPhone.Text);
+            if (command.CommandText.Contains("@Email"))
+                command.Parameters.AddWithValue("@Email", txtEmail.Text);
             if (command.CommandText.Contains("@ContactID"))
-            {
                 command.Parameters.AddWithValue("@ContactID", SelectedContactId);
-            }
 
             connection.Open();
             int affected = command.ExecuteNonQuery();
-            MessageBox.Show($"InsertComplite! {affected} Row affected");
+            MessageBox.Show($"Operation complete! {affected} row(s) affected");
             connection.Close();
 
             txtName.Clear();
@@ -164,6 +164,21 @@ namespace ContactsApp01
             txtEmail.Clear();
 
             LoadContacts();
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (SelectedContactId == -1)
+            {
+                MessageBox.Show("Please select a contact to remove.");
+                return;
+            }
+
+            SqlCommand deleteCommand = new SqlCommand("""
+                DELETE FROM Contacts WHERE ContactID = @ContactID
+                """, connection);
+
+            queryExecution(deleteCommand, connection);
         }
     }
 }

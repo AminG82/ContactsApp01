@@ -175,7 +175,7 @@ namespace ContactsApp01
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Warning" , "Are you sure you want to delete this row?" ,MessageBoxButtons.OKCancel );
+            var result = MessageBox.Show("Are you sure you want to delete this row?", "Warning", MessageBoxButtons.OKCancel);
 
             if (result == DialogResult.OK)
             {
@@ -185,7 +185,19 @@ namespace ContactsApp01
 
                 queryExecution(deleteCommand, connection);
             }
-            this.Close();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            SqlDataAdapter searchCommand = new SqlDataAdapter("""
+                SELECT * FROM Contacts WHERE ContactName LIKE @Search OR ContactLastName LIKE @Search
+                """, connection);
+            searchCommand.SelectCommand.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
+            DataSet ds = new DataSet();
+            searchCommand.Fill(ds , "Contacts");
+            contactShowGridView.Columns.Clear();
+            contactShowGridView.DataSource = ds.Tables["Contacts"];
+            contactShowGridView.Columns["ContactID"].Visible = false; // Hide the ID column
         }
     }
 }

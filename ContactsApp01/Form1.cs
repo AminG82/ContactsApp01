@@ -12,6 +12,8 @@ namespace ContactsApp01
         public MainForm()
         {
             InitializeComponent();
+            btnRemove.Enabled = false;
+            btnUpdate.Enabled = false;
         }
 
         private void LoadContacts()
@@ -90,8 +92,11 @@ namespace ContactsApp01
 
         private void contactShowGridView_SelectionChanged(object sender, EventArgs e)
         {
+            bool hasSelection = contactShowGridView.SelectedRows.Count > 0;
+            btnRemove.Enabled = hasSelection;
+            btnUpdate.Enabled = hasSelection;
 
-            if (contactShowGridView.SelectedRows.Count > 0)
+            if (hasSelection)
             {
                 var selectedRow = contactShowGridView.SelectedRows[0];
                 SelectedContactId = Convert.ToInt32(selectedRow.Cells["ContactID"].Value);
@@ -101,21 +106,23 @@ namespace ContactsApp01
                 txtPhone.Text = selectedRow.Cells["ContactPhone"].Value?.ToString();
                 txtEmail.Text = selectedRow.Cells["ContactEmail"].Value?.ToString();
 
-                //Reseting Modify flag after selection
                 txtName.Modified = false;
                 txtLastName.Modified = false;
                 txtPhone.Modified = false;
                 txtEmail.Modified = false;
             }
+            else
+            {
+                SelectedContactId = -1;
+                txtName.Clear();
+                txtLastName.Clear();
+                txtPhone.Clear();
+                txtEmail.Clear();
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (SelectedContactId == -1)
-            {
-                MessageBox.Show("Please select a contact to update.");
-                return;
-            }
 
             if (!txtName.Modified &&
                 !txtLastName.Modified &&
@@ -168,17 +175,17 @@ namespace ContactsApp01
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (SelectedContactId == -1)
-            {
-                MessageBox.Show("Please select a contact to remove.");
-                return;
-            }
+            var result = MessageBox.Show("Warning" , "Are you sure you want to delete this row?" ,MessageBoxButtons.OKCancel );
 
-            SqlCommand deleteCommand = new SqlCommand("""
+            if (result == DialogResult.OK)
+            {
+                SqlCommand deleteCommand = new SqlCommand("""
                 DELETE FROM Contacts WHERE ContactID = @ContactID
                 """, connection);
 
-            queryExecution(deleteCommand, connection);
+                queryExecution(deleteCommand, connection);
+            }
+            this.Close();
         }
     }
 }
